@@ -1,5 +1,8 @@
 const express = require('express');
 const router = express.Router();
+const bodyParser = require('body-parser');
+
+router.use(bodyParser.json());
 
 const interviewExperiences = [
     {
@@ -19,9 +22,15 @@ const interviewExperiences = [
     },
   ];
 
-
   router.get('/',(req,res)=>{
     res.json(interviewExperiences);
   });
+
+
+  router.post('/',(req,res)=>{
+    const newExperience = req.body
+    interviewExperiences.push(newExperience);
+    res.status(201).json(newExperience);
+  })
 
   module.exports = router;
