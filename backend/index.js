@@ -1,8 +1,9 @@
 const express = require('express');
 const app = express();
 const port = 5000;
+const connectToDatabse = require('./config/database');
 
-app.use(express.json());
+connectToDatabse();
 
 const interviewRoutes = require('./routes/interview-experiences');
 app.use('/api/interview-experiences',interviewRoutes);

@@ -1,36 +1,19 @@
 const express = require('express');
 const router = express.Router();
 const bodyParser = require('body-parser');
+const posts = require('../models/posts');
 
 router.use(bodyParser.json());
 
-const interviewExperiences = [
-    {
-      id: 1,
-      userName: 'Sumit Raghuwanshi',
-      companyName: 'Tally Solutions',
-      status: 'Selected',
-      details: 'Had a great interview experience at TallySolutions',
-    },
-
-    {
-      id: 2,
-      userName: 'Prachi Suryawanshi',
-      companyName: 'NRI Fintech',
-      status: 'Rejected',
-      details: 'Unfortunately, I was not selected at NRI',
-    },
-  ];
-
-  router.get('/',(req,res)=>{
-    res.json(interviewExperiences);
+  router.get('/',async(req,res)=>{
+    const showPost = await posts.find();
+    res.json(showPost);
   });
 
-
   router.post('/',(req,res)=>{
-    const newExperience = req.body
-    interviewExperiences.push(newExperience);
-    res.status(201).json(newExperience);
+    const newPost = req.body;
+    posts.create(newPost).then(()=>console.log("Post sent to database successfully"));
+    res.status(201).json(newPost);
   })
 
   module.exports = router;
