@@ -1,8 +1,9 @@
 const mongoose = require('mongoose');
 
+
 function connectToDatabse(){
 
-    mongoose.connect("mongodb://localhost:27017",{
+    mongoose.connect("mongodb://0.0.0.0:27017/",{
         dbName:"campus-connect",
     })
     .then(()=>console.log("Database Connected"))
