@@ -1,9 +1,12 @@
-const mongoose = require('mongoose');
+const dotenv = require('dotenv');
+dotenv.config();
 
+const mongoose = require('mongoose');
+const URL = process.env.Database_URL;
 
 function connectToDatabse(){
 
-    mongoose.connect("mongodb://0.0.0.0:27017/",{
+    mongoose.connect(URL,{
         dbName:"campus-connect",
     })
     .then(()=>console.log("Database Connected"))

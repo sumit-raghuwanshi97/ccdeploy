@@ -5,15 +5,15 @@ const posts = require('../models/posts');
 
 router.use(bodyParser.json());
 
-  router.get('/',async(req,res)=>{
+  router.get('/getPost',async(req,res)=>{
     const showPost = await posts.find();
     res.json(showPost);
   });
 
-  router.post('/',(req,res)=>{
+  router.post('/createPost',(req,res)=>{
     const newPost = req.body;
     posts.create(newPost).then(()=>console.log("Post sent to database successfully"));
     res.status(201).json(newPost);
-  })
+  });
 
   module.exports = router;
