@@ -5,8 +5,8 @@ const connectToDatabse = require('./config/database');
 
 connectToDatabse();
 
-const interviewRoutes = require('./routes/interview-experiences');
-app.use('/api/interview-experiences',interviewRoutes);
+const postRoutes = require('./routes/posts');
+app.use('/posts',postRoutes);
 
 app.listen(port, () => {
     console.log('server is running on port 5000');
