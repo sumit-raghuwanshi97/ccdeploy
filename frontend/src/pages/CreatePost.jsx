@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 
 function CreatePost() {
   const [formData, setFormData] = useState({
@@ -8,18 +10,19 @@ function CreatePost() {
     creatorName: '',
   });
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
+  const handleChange = (name, value) => {
     setFormData({
       ...formData,
       [name]: value,
     });
   };
 
+  const handleQuillChange = (value) => {
+    handleChange('description', value);
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    
     // Handle form submission here
     console.log(formData); // You can send this data to your server or perform any other action
   };
@@ -31,7 +34,6 @@ function CreatePost() {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    
   };
 
   const formStyle = {
@@ -56,8 +58,6 @@ function CreatePost() {
     margin: '0px auto',
   };
 
-  
-
   return (
     <div style={containerStyle}>
       <div style={formStyle}>
@@ -71,7 +71,7 @@ function CreatePost() {
                 id="creatorName"
                 name="creatorName"
                 value={formData.creatorName}
-                onChange={handleChange}
+                onChange={(e) => handleChange('creatorName', e.target.value)}
                 className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300"
                 required
               />
@@ -83,7 +83,7 @@ function CreatePost() {
                 id="companyName"
                 name="companyName"
                 value={formData.companyName}
-                onChange={handleChange}
+                onChange={(e) => handleChange('companyName', e.target.value)}
                 className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300"
                 required
               />
@@ -95,22 +95,19 @@ function CreatePost() {
                 id="status"
                 name="status"
                 value={formData.status}
-                onChange={handleChange}
+                onChange={(e) => handleChange('status', e.target.value)}
                 className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300"
                 required
               />
-            </div>
+              </div>
             <div className="mb-4">
               <label htmlFor="description" className="block text-gray-600">Description:</label>
-              <textarea
-                id="description"
-                name="description"
+              <ReactQuill
                 value={formData.description}
-                onChange={handleChange}
-                className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300"
-                required
-                rows="3"
-              ></textarea>
+                onChange={handleQuillChange}
+                modules={quillModules}
+                formats={quillFormats}
+              />
             </div>
 
             <button
@@ -126,5 +123,22 @@ function CreatePost() {
     </div>
   );
 }
+
+const quillModules = {
+  toolbar: [
+    [{ 'header': '1' }, { 'header': '2' }, { 'font': [] }],
+    [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+    ['bold', 'italic', 'underline'],
+    [{ 'align': [] }],
+    ['link'],
+  ],
+};
+
+const quillFormats = [
+  'header', 'font', 'size',
+  'bold', 'italic', 'underline',
+  'list', 'bullet',
+  'align', 'link',
+];
 
 export default CreatePost;
