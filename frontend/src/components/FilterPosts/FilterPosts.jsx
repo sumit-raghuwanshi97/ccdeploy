@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 
+
+
 function FilterPosts({ onFilter }) {
   const [filters, setFilters] = useState({
     company: '',
@@ -19,7 +21,7 @@ function FilterPosts({ onFilter }) {
 
   return (
     <div className="mb-4 my-3 ">
-      <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-2">
+      <div className="flex flex-col justify-between md:flex-row space-y-2 md:space-y-0 md:space-x-2">
         <div className="flex items-center">
           <label htmlFor="company" className="mr-2">Company:</label>
           <select
@@ -27,7 +29,10 @@ function FilterPosts({ onFilter }) {
             onChange={handleFilterChange}
             className="border p-2 rounded-md"
           >
-            <select name="option1" id="">NRI Fintech</select>
+            <option value=""></option>
+            <option value="opt1">NRI Fintech</option>
+            <option value="opt2">ZScaler</option>
+            <option value="opt3">Other</option>
             {/* Populate company options dynamically */}
           </select>
         </div>
@@ -39,6 +44,10 @@ function FilterPosts({ onFilter }) {
             onChange={handleFilterChange}
             className="border p-2 rounded-md"
           >
+            <option value=""></option>
+            <option value="opt1">Selected</option>
+            <option value="opt2">Not Selected</option>
+            <option value="opt3">Other</option>
             {/* Populate status options dynamically */}
           </select>
         </div>
@@ -50,6 +59,10 @@ function FilterPosts({ onFilter }) {
             onChange={handleFilterChange}
             className="border p-2 rounded-md"
           >
+            <option value="">Choose a role</option>
+            <option value="opt1">SDE</option>
+            <option value="opt2">Graduate Trainee</option>
+            <option value="opt3">Other</option>
             {/* Populate role options dynamically */}
           </select>
         </div>
@@ -61,6 +74,10 @@ function FilterPosts({ onFilter }) {
             onChange={handleFilterChange}
             className="border p-2 rounded-md"
           >
+            <option value=""></option>
+            <option value="opt1">Full-Time</option>
+            <option value="opt2">Intern</option>
+            <option value="opt3">Other</option>
             {/* Populate post type options dynamically */}
           </select>
         </div>

@@ -22,10 +22,10 @@ function ViewPosts() {
   };
 
   return (
-    <div className=" bg-[#8ECAE6] min-h-screen p-4">
+    <div className=" bg-[#219EBC] min-h-screen p-4">
     <div className="container mx-auto p-4 ">
       <h1 className="text-4xl font-bold mb-4 text-center">Posts</h1>
-      <div className="bg-white p-4 rounded shadow-md mb-4">
+      <div className="bg-[#8ECAE6] p-4 rounded shadow-md mb-4">
             
       <FilterPosts onFilter={handleFilter} />
           </div>
