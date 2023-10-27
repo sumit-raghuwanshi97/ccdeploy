@@ -4,10 +4,13 @@ import 'react-quill/dist/quill.snow.css';
 
 function CreatePost() {
   const [formData, setFormData] = useState({
+    titleName: '',
     companyName: '',
     status: '',
+    roleName: '',
+    postType: '',
     description: '',
-    creatorName: '',
+    
   });
 
   const handleChange = (name, value) => {
@@ -62,44 +65,86 @@ function CreatePost() {
     <div style={containerStyle}>
       <div style={formStyle}>
         <div className='container'>
-          <h2 style={headingStyle} className="text-2xl  font-bold mb-4">Create a New Post</h2>
+          <h2 style={headingStyle} className="text-2xl  font-bold mb-4">Write your post here.</h2>
           <form onSubmit={handleSubmit}>
+
             <div className="mb-4">
-              <label htmlFor="creatorName" className="block text-gray-600">Name:</label>
+              <label htmlFor="titleName" className="block text-gray-600">Title of the Post  :</label>
               <input
                 type="text"
-                id="creatorName"
-                name="creatorName"
-                value={formData.creatorName}
-                onChange={(e) => handleChange('creatorName', e.target.value)}
+                id="titleName"
+                name="titleName"
+                value={formData.titleName}
+                onChange={(e) => handleChange('titleName', e.target.value)}
                 className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300"
                 required
               />
             </div>
-            <div className="mb-4">
-              <label htmlFor="companyName" className="block text-gray-600">Company :</label>
-              <input
-                type="text"
-                id="companyName"
-                name="companyName"
-                value={formData.companyName}
-                onChange={(e) => handleChange('companyName', e.target.value)}
-                className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300"
-                required
-              />
-            </div>
-            <div className="mb-4">
-              <label htmlFor="status" className="block text-gray-600">Status:</label>
-              <input
-                type="text"
-                id="status"
-                name="status"
-                value={formData.status}
-                onChange={(e) => handleChange('status', e.target.value)}
-                className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300"
-                required
-              />
+
+
+            <div className="mb-4" style={{ display: 'flex', flexDirection: 'row', gap: '10px' }}>
+              <div style={{ flex: 1 }}>
+                <label htmlFor="companyName" className="block text-gray-600">Company:</label>
+                <input
+                  type="text"
+                  id="companyName"
+                  name="companyName"
+                  value={formData.companyName}
+                  onChange={(e) => handleChange('companyName', e.target.value)}
+                  className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300"
+                  required
+                />
               </div>
+              <div style={{ flex: 1 }}>
+                <label htmlFor="status" className="block text-gray-600">Status:</label>
+                <select
+                  type="text"
+                  id="status"
+                  name="status"
+                  value={formData.status}
+                  onChange={(e) => handleChange('status', e.target.value)}
+                  className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300"
+                  required>
+                    <option value="opt1">Selected</option>
+                    <option value="opt2">Not Selected</option>
+                    <option value="opt3">Other</option>
+                  </select>
+                
+              </div>
+            </div>
+
+
+            <div className="mb-4" style={{ display: 'flex', flexDirection: 'row', gap: '10px' }}>
+              <div style={{ flex: 1 }}>
+                <label htmlFor="roleName" className="block text-gray-600">Role/Position:</label>
+                <input
+                  type="text"
+                  id="roleName"
+                  name="roleName"
+                  value={formData.roleName}
+                  onChange={(e) => handleChange('roleName', e.target.value)}
+                  className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300"
+                  required
+                />
+              </div>
+              <div style={{ flex: 1 }}>
+                <label htmlFor="postType" className="block text-gray-600">Post Type:</label>
+                <input
+                  type="text"
+                  id="postType"
+                  name="postType"
+                  value={formData.postType}
+                  onChange={(e) => handleChange('postType', e.target.value)}
+                  className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300"
+                  required
+                />
+              </div>
+            </div>
+
+
+
+
+
             <div className="mb-4">
               <label htmlFor="description" className="block text-gray-600">Description:</label>
               <ReactQuill
@@ -127,7 +172,7 @@ function CreatePost() {
 const quillModules = {
   toolbar: [
     [{ 'header': '1' }, { 'header': '2' }, { 'font': [] }],
-    [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+    [{ 'list': 'ordered' }, { 'list': 'bullet' }],
     ['bold', 'italic', 'underline'],
     [{ 'align': [] }],
     ['link'],
