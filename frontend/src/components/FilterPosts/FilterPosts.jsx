@@ -23,7 +23,7 @@ function FilterPosts({ onFilter }) {
     <div className="mb-4 my-3 ">
       <div className="flex flex-col justify-between md:flex-row space-y-2 md:space-y-0 md:space-x-2">
         <div className="flex items-center">
-          <label htmlFor="company" className="mr-2">Company:</label>
+          <label htmlFor="company" className="mr-2 font-bold">Company:</label>
           <select
             name="company"
             onChange={handleFilterChange}
@@ -38,7 +38,7 @@ function FilterPosts({ onFilter }) {
         </div>
 
         <div className="flex items-center">
-          <label htmlFor="status" className="mr-2">Status:</label>
+          <label htmlFor="status" className="mr-2 font-bold">Status:</label>
           <select
             name="status"
             onChange={handleFilterChange}
@@ -53,13 +53,13 @@ function FilterPosts({ onFilter }) {
         </div>
 
         <div className="flex items-center">
-          <label htmlFor="role" className="mr-2">Role:</label>
+          <label htmlFor="role" className="mr-2 font-bold">Role:</label>
           <select
             name="role"
             onChange={handleFilterChange}
             className="border p-2 rounded-md"
           >
-            <option value="">Choose a role</option>
+            <option  value="">Choose a role</option>
             <option value="opt1">SDE</option>
             <option value="opt2">Graduate Trainee</option>
             <option value="opt3">Other</option>
@@ -68,7 +68,7 @@ function FilterPosts({ onFilter }) {
         </div>
 
         <div className="flex items-center">
-          <label htmlFor="postType" className="mr-2">Post Type:</label>
+          <label htmlFor="postType" className="mr-2 font-bold">Post Type:</label>
           <select
             name="postType"
             onChange={handleFilterChange}
