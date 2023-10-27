@@ -81,8 +81,9 @@ function CreatePost() {
     <div style={containerStyle}>
       <div style={formStyle}>
         <div className='container'>
-          <h2 style={headingStyle} className="text-2xl  font-bold mb-4">Create a New Post</h2>
+          <h2 style={headingStyle} className="text-2xl  font-bold mb-4">Write your post here.</h2>
           <form onSubmit={handleSubmit}>
+
             <div className="mb-4">
               <label htmlFor="caption" className="block text-gray-600">Caption</label>
               <input
@@ -185,7 +186,7 @@ function CreatePost() {
 const quillModules = {
   toolbar: [
     [{ 'header': '1' }, { 'header': '2' }, { 'font': [] }],
-    [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+    [{ 'list': 'ordered' }, { 'list': 'bullet' }],
     ['bold', 'italic', 'underline'],
     [{ 'align': [] }],
     ['link'],

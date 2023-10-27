@@ -18,7 +18,7 @@ function Hero() {
           <Link to="/create" className="bg-[#fb8500] hover:bg-[#ffb703] text-black font-bold py-3 px-6 text-lg rounded-full inline-block">
             Create Post
           </Link>
-          <Link to="/view" className="bg-[#fb8500] hover:bg-[#ffb703] text-black font-bold py-3 px-6 text-lg rounded-full ml-4 inline-block">
+          <Link to="/posts" className="bg-[#fb8500] hover:bg-[#ffb703] text-black font-bold py-3 px-6 text-lg rounded-full ml-4 inline-block">
             View Posts
           </Link>
         </div>
