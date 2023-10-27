@@ -39,8 +39,9 @@ try {
 exports.getPosts = async (req,res) => {
     try {
     
-        const posts = Post.find();
+        const posts = await Post.find();
         
+        console.log(posts);
         return res
         .status(200)
         .json({

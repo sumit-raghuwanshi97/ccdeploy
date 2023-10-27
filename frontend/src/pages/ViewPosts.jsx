@@ -1,17 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import FilterPosts from '../components/FilterPosts/FilterPosts';
 import PostCard from '../components/PostCard/PostCard';
+import axios from 'axios';
 
 function ViewPosts() {
   const [posts, setPosts] = useState([]);
   const [filteredPosts, setFilteredPosts] = useState(posts); // Filtered posts based on user selection
-
+ 
   useEffect(() => {
-    // Fetch posts from your API or data source and update the 'posts' state
-    // Example:
-    // fetchPosts()
-    //   .then((data) => setPosts(data))
-    //   .catch((error) => console.error(error));
+    //fetching data from our bakend api 
+     axios.get('/posts/getPosts')
+     .then((response)=>{
+      setPosts(response.data.posts);
+     })
+     .catch((error)=>console.log(error));
   }, []);
 
   const handleFilter = (filters) => {
@@ -30,7 +32,7 @@ function ViewPosts() {
       <FilterPosts onFilter={handleFilter} />
           </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {filteredPosts.map((post) => (
+        {posts.map((post) => (
           <PostCard key={post.id} post={post} />
         ))}
       </div>

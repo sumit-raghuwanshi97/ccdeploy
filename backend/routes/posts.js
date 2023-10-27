@@ -10,7 +10,7 @@ router.use(bodyParser.json());
 
 //routes
 router.route('/createPost').post(isAuthenticated, CreatePost);
-router.route('/getPosts').post(isAuthenticated, getPosts);
+router.route('/getPosts').get(getPosts);
 
 
 module.exports = router;
