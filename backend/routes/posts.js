@@ -2,18 +2,15 @@ const express = require('express');
 const router = express.Router();
 const bodyParser = require('body-parser');
 const posts = require('../models/posts');
+const { isAuthenticated } = require("../middlewares/auth");
+const { CreatePost } = require("../controllers/post");
+const { getPosts } = require("../controllers/post");
 
 router.use(bodyParser.json());
 
-  router.get('/getPost',async(req,res)=>{
-    const showPost = await posts.find();
-    res.json(showPost);
-  });
+//routes
+router.route('/createPost').post(isAuthenticated, CreatePost);
+router.route('/getPosts').get(getPosts);
 
-  router.post('/createPost',(req,res)=>{
-    const newPost = req.body;
-    posts.create(newPost).then(()=>console.log("Post sent to database successfully"));
-    res.status(201).json(newPost);
-  });
 
-  module.exports = router;
+module.exports = router;
