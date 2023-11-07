@@ -6,6 +6,7 @@ import CreatePost from './pages/CreatePost';
 import ViewPosts from './pages/ViewPosts';
 import RegisterUser from './pages/RegisterUser';
 import SignInUser from './pages/LoginUser';
+import PostView from './components/PostCard/PostView';
 
 function App() {
   return (
@@ -20,6 +21,8 @@ function App() {
         <Route path="/posts" element={<ViewPosts />} />
         <Route path="/register" element={<RegisterUser />} />
         <Route path="/login" element={<SignInUser />} />
+
+        <Route path="post/:postId" element={<PostView/>}/>
         {/* Add more routes as needed */}
       </Routes>
     </Router>

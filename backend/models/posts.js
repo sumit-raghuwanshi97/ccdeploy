@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const postsSchema = new mongoose.Schema({
     owner : {
         type : mongoose.Schema.Types.ObjectId,
-        ref : "user",
+        ref : "User",
     },
     
     caption : String,
@@ -23,6 +23,14 @@ const postsSchema = new mongoose.Schema({
         type : Date,
         default : Date.now,
     },
+
+    likes : [
+       {
+        type: mongoose.Schema.Types.ObjectId,
+        ref : "User",
+       }
+    ]
+
 });
 
 const posts = mongoose.model('posts' , postsSchema);

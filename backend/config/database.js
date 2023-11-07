@@ -1,13 +1,31 @@
 const mongoose = require('mongoose');
 const URL = process.env.Database_URL;
+const URL2 = process.env.Database_URL2;
+const flag = true;
 
-function connectToDatabse(){
+async function connectToDatabse(){
 
-    mongoose.connect(URL,{
+    await mongoose.connect(URL2,{
         dbName:"campus-connect",
     })
-    .then(()=>console.log("Database Connected"))
-    .catch((e)=>console.log("Error: " + e));
+    .then(()=>{
+        console.log("Database Connected")
+        flag = false;
+    }
+    )
+    .catch((e)=>console.log("There is a problem connecting to the online database"));
+
+     
+    if(flag)
+    {
+        mongoose.connect(URL2)
+        .then(()=>{
+            console.log("Local Database Connected")
+        }
+        )
+        .catch((e)=>console.log("An Error Occurred " + e));
+    }
+
 }
 
 module.exports = connectToDatabse;
