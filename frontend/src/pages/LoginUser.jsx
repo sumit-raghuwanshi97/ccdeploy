@@ -49,6 +49,10 @@ function SignInUser() {
      
     const success = response.data.success;
     const message = response.data.message;
+    const token = response.data.token;
+    
+    setCookie('token',token , { path: '/' });
+
     console.log(message);
 
      setAlertMessage({
