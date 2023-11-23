@@ -88,7 +88,11 @@ exports.loginUser = async (req,res) => {
     const token = await user1.generateToken();
      
     //send token to cookies
-    res.status(200).cookie("token" , token)
+    res.status(200).cookie("token" , token , {
+        httpOnly: true,
+        path: "/",
+        maxAge: 30 * 24 * 60 * 60 * 1000, // 30days
+    })
     .json(
         {
         success:true,
