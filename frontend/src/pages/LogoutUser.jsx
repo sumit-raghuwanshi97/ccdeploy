@@ -1,14 +1,18 @@
 import { useEffect } from "react";
+import { useNavigate } from 'react-router-dom';
+
 
 function LogoutUser(){
- useEffect(()=>{
-    const authenticated = localStorage.getItem("authenticated");
-    if(authenticated){
-        localStorage.setItem("authenticated",false);
-        
-    }
- });
-    
+const navigate = useNavigate();
+
+document.cookie = 'token=NULL';
+
+window.location.reload();
+window.location.href = '/';
+
+
+
+ 
 }
 
 export default LogoutUser;

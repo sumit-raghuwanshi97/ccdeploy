@@ -7,6 +7,11 @@ import {GoDotFill} from "react-icons/go";
 import {FaRegComment} from "react-icons/fa";
 import {IoIosShareAlt} from "react-icons/io";
 import {BiArrowBack} from "react-icons/bi";
+import { FaUserCircle } from "react-icons/fa";
+import { MdCancel } from "react-icons/md"
+import CommentCard from '../CommentCard/CommentCard';
+import UserList from '../Popups/UserList';
+
 
 
 function  PostView() {
@@ -18,33 +23,66 @@ function  PostView() {
   const [count,setCount] = useState(0);
   const [likers, setLikers] = useState([]);
   const [showLikers, setShowLikers] = useState(false);
-
-  console.log(postId);
-
-  console.log(postId);
-  useEffect(() => {
-    axios.get(`/posts/getPosts/${postId}`)
-      .then((response) => {
-        const post = response.data.post;
-        //set post 
-        setPost(post);
-
-        //set status icon
-        if(post.status==="Selected") setSelected(true);
-        setCount(5);
-        
-        
-      })
-      .catch((error) => console.log(error));
-       
-      const token = document.cookie.split('; ')
+  const [showComments, setShowComments] = useState(false);
+  const [comments, setComments] = useState([]);
+  const [comment, setComment] = useState('');
+  const [showCommentBox, setShowCommentBox] = useState(false);
+  const token = document.cookie.split('; ')
     .find(cookie => cookie.startsWith('token'));
 
-    console.log(token);
-
     const headers = {
-      'Authorization' : `${token}`,
+      'authorization' : `${token}`,
     };
+
+    const onCommentHit = () => {
+      setShowCommentBox(true);
+    }
+
+    const handleCommentChange = (e) => {
+      setComment(e.target.value);
+    };
+  
+    const handleSubmit = async () => {
+
+      const postComment = {
+        text:comment,
+        userName : localStorage.getItem('username'),
+        createdAt : new Date(),
+        post : postId,
+        likes : [],
+      };
+
+      const response = await axios.post('/posts/addComment',postComment,{headers});
+      
+      console.log(response);
+      const mpost = {
+        ...postComment,
+        _id : response.data._id,
+      };
+
+      comments.push(mpost);
+      setComment('');
+    };
+
+  //on load
+  useEffect(() => {
+  
+    axios.get(`/posts/getPosts/${postId}`,{headers})
+      .then((response) => {
+        const post = response.data.post;
+        const isBookmarked = response.data.isBookmarked;
+        //set post 
+        setPost(post);
+        setBookmark(isBookmarked);
+        //set status icon
+        if(post.status==="Selected") setSelected(true);
+
+      })
+      .catch((error) => {
+        console.log(error);
+        alert(error);
+      });
+       
 
       axios.get(`/posts/getLikers/${postId}`,{headers})
         .then((response) => {
@@ -52,33 +90,52 @@ function  PostView() {
           console.log("like -" + response.data.currLike);
           setLike(response.data.currLike);
           setLikers(likers);
+          setCount(likers.length);
         })
         .catch((error) => console.log(error));
 
-     
+      
+      axios.get(`/posts/getComment/${postId}`)
+        .then((response) => {
+          const comments = response.data.comments;
+          const orderofcomments = comments.slice().reverse();
+          setComments(orderofcomments);
+        })
+        .catch( (error) => console.log(error));
       
   }, []);
 
   
-  const  onLikeHit = () =>{
+  const  onLikeHit = async () =>{
     
-    const token = document.cookie.split('; ')
-    .find(cookie => cookie.startsWith('token'));
-
-    console.log(token);
-
-    const headers = {
-      'Authorization' : `${token}`,
-    };
-
     if(like){
+    await axios.get(`/posts/likePost/${postId}`,{headers});
+    setCount(count-1);
     setLike(false);
     }
     else{
     console.log(postId);
     axios.get(`/posts/likePost/${postId}`,{headers});
+    setCount(count+1);
     setLike(true);
+
     } 
+  };
+
+  //on bookmark 
+
+  const onBookmarkHit = () => {
+    //bookmark post 
+    // if(bookmark) setBookmark(false);
+    // else
+    // setBookmark(true);
+
+    axios.get(`/posts/bookmarkPost/${postId}`,{headers})
+    .then((response)=>{
+      console.log(response);
+      setBookmark(!(response.data.isBookmarked));
+    })
+    .catch((e)=>(console.log(e)));
   };
 
 
@@ -118,14 +175,14 @@ return (
   
       {bookmark ? (
         <span
-          onClick={() => setBookmark(false)}
+          onClick={onBookmarkHit}
           class="material-icons text-gray-500 cursor-pointer"
         >
          <BsFillBookmarkFill/>
         </span>
       ) : (
         <span
-          onClick={() => setBookmark(true)}
+          onClick={onBookmarkHit}
           class="material-icons text-blue-500 cursor-pointer"
         >
           <BsBookmark/>
@@ -141,6 +198,7 @@ return (
     {like ? 
       (
         <span
+          onClick={onLikeHit}
           class="material-icons text-[#FF0000] cursor-pointer mx-1.5"
         >
          <AiTwotoneHeart size={26}/>
@@ -153,29 +211,52 @@ return (
           <AiOutlineHeart size={26} />
         </span>
       )}
-      <span className='mx-1.5 cursor-pointer'><FaRegComment size={23} /></span>
+      <span 
+      onClick={onCommentHit}
+      className='mx-1.5 cursor-pointer'><FaRegComment size={23} /></span>
       <span className='mx-1.4 cursor-pointer'><IoIosShareAlt size={24} /></span>
       </div>
     
       
       <div className="text-black relative group">
-      <span className="ml-2" onClick={() => setShowLikers(!showLikers)}>
-        {count + like} Likes
+      <span className="ml-2" onClick={() => setShowLikers(true)}>
+        {count} Likes
       </span>
-      {showLikers && (
-        <div className="absolute top-0 left-0 bg-white border border-blue-500 p-2 rounded-lg" onClick={() => setShowLikers(!showLikers)}>
-          <p className="font-bold">Liked by:</p>
-          <div className="flex flex-col">
-            {likers.map((liker, index) => (
-              <span key={index} className="p-1 ml-2">
-                {liker.username}
-              </span>
-            ))}
-          </div>
-        </div>
-      )}
-    </div>
+      </div>
 
+    {/* view All comments */}
+    <div>
+    <h2 onClick={()=>{setShowComments(!showComments);setShowCommentBox(true);}}className="font-semibold text-black-sm relative group ml-2 mb-2"
+    >View all {comments.length} comments</h2>
+    {
+    showComments && (<div>  {comments.map((comment) => (<CommentCard comment={comment}/>))}</div>)
+    }
+    </div>
+    
+    {/* Show comment box */}
+    {showCommentBox && 
+    (<div className="flex items-center space-x-4 p-4">
+      <FaUserCircle size={30}/>
+      <div className="flex-1 rounded">
+        <input
+          type="text"
+          placeholder="Add a comment"
+          value={comment}
+          onChange={handleCommentChange}
+          className="w-full p-2 rounded-full focus:outline-none focus:border-blue-500"
+        />
+      </div>
+   
+      <button
+        onClick={handleSubmit}
+        className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
+      >
+        Post
+      </button>
+    </div>
+    )}
+    
+    {showLikers &&  <UserList onClose={()=>setShowLikers(false)} likers={likers}/>}
     </div>
  );
 }

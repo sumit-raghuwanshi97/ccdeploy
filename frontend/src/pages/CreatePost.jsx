@@ -2,13 +2,23 @@ import React, { useState } from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import axios from 'axios';
+import AlertBox from '../components/Popups/AlertBox';
+import { useNavigate } from 'react-router-dom';
 
 function CreatePost() {
   
+  const navigate = useNavigate();
+  const [showAlert , setShowAlert] = useState(false);
+
+  const HandleOnClose = ()=> {
+    setShowAlert(false);
+    navigate('/posts'); 
+  }
+
   const [formData, setFormData] = useState({
     caption : '',
     companyName: '',
-    role: 'Student',
+    role: '',
     type: 'Full Time',
     status: 'Selected',
     content: '',
@@ -25,6 +35,8 @@ function CreatePost() {
     handleChange('content', value);
   };
 
+
+
   const handleSubmit = (e) => {
     e.preventDefault();
     
@@ -39,11 +51,8 @@ function CreatePost() {
     };
     //sending data to the backend through api 
     axios.post('/posts/createPost' , formData , {headers});
-    console.log(formData); // You can send this data to your server or perform any other action
-    console.log(headers);
-
-
-  };
+    setShowAlert(true);
+    };
 
   const containerStyle = {
     minHeight: 'calc(100vh - 4in)', // Adjust the height as needed
@@ -90,6 +99,7 @@ function CreatePost() {
                 type="text"
                 id="caption"
                 name="caption"
+                placeholder='Interview Experience for abc Company '
                 value={formData.caption}
                 onChange={(e) => handleChange('caption', e.target.value)}
                 className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300"
@@ -111,18 +121,17 @@ function CreatePost() {
 
             <div className="mb-4">
               <label htmlFor="role" className="block text-gray-600">Role</label>
-              <select
+              <input
                 type="text"
                 id="role"
                 name="role"
+                placeholder='ex. SDE'
                 value={formData.role}
                 onChange={(e) => handleChange('role', e.target.value)}
                 className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300"
                 required>
-               <option value="Student">Student</option>
-               <option value="Faculty">Faculty</option>
-               <option value="Other">other</option>
-              </select>
+        
+              </input>
               </div>
 
             <div className="mb-4">
@@ -136,9 +145,9 @@ function CreatePost() {
                 className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300"
                 required
               >
-                 <option value="option1">Full Time</option>
-                 <option value="option2">Intern</option>
-                 <option value="option3">FT + Intern</option>
+                 <option value="Full Time">Full Time</option>
+                 <option value="Intern">Intern</option>
+                 <option value="FT + Intern">FT + Intern</option>
               </select>
               </div>
 
@@ -152,9 +161,9 @@ function CreatePost() {
                 onChange={(e) => handleChange('status', e.target.value)}
                 className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300"
                 required>
-                   <option value="option1">Selected</option>
-                   <option value="option2">Not Selected</option>
-                   <option value="option3">None</option>
+                   <option value="Selected">Selected</option>
+                   <option value="Not Selected">Not Selected</option>
+                   <option value="None">None</option>
               </select>
               </div>
 
@@ -179,6 +188,8 @@ function CreatePost() {
           </form>
         </div>
       </div>
+
+      { showAlert && <AlertBox message="Post Created Successfully" status="true" onClose={HandleOnClose}/> }
     </div>
   );
 }

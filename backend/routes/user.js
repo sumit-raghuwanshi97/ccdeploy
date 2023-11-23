@@ -1,9 +1,18 @@
 const express = require('express');
-const { RegisterUser } = require('../controllers/user');
+const { RegisterUser, getUser, getLoggedInUser } = require('../controllers/user');
 const { loginUser } = require("../controllers/user");
+const { isAuthenticated } = require("../middlewares/auth");
+const bodyParser = require('body-parser');
+
+
 const router = express.Router();
+router.use(bodyParser.json());
+
 
 router.route('/register').post(RegisterUser);
 router.route('/login').post(loginUser);
+router.route('/:id').get(isAuthenticated,getUser);
+router.route('/profile/me').get(isAuthenticated, getLoggedInUser);
+
 
 module.exports = router ;

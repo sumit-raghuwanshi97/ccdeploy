@@ -5,26 +5,26 @@ const flag = true;
 
 async function connectToDatabse(){
 
-    await mongoose.connect(URL2,{
-        dbName:"campus-connect",
+    console.log(URL);
+    await mongoose.connect(URL,{
+        dbName: "campus-connect"
     })
     .then(()=>{
         console.log("Database Connected")
-        flag = false;
     }
     )
-    .catch((e)=>console.log("There is a problem connecting to the online database"));
+    .catch((e)=>console.log(e));
 
      
-    if(flag)
-    {
-        mongoose.connect(URL2)
-        .then(()=>{
-            console.log("Local Database Connected")
-        }
-        )
-        .catch((e)=>console.log("An Error Occurred " + e));
-    }
+    // if(flag)
+    // {
+    //     mongoose.connect(URL2)
+    //     .then(()=>{
+    //         console.log("Local Database Connected")
+    //     }
+    //     )
+    //     .catch((e)=>console.log("An Error Occurred " + e));
+    // }
 
 }
 

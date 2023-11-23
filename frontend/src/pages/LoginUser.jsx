@@ -1,18 +1,33 @@
 import React, { useEffect, useState } from 'react';
 import { useCookies } from "react-cookie";
 import axios  from 'axios';
-import { Link } from 'react-router-dom';
+import { Link , useNavigate } from 'react-router-dom';
+import AlertBox from '../components/Popups/AlertBox';
+import { useDispatch } from 'react-redux';
+import { loginUser } from '../Actions/user';
+import { useSelector } from 'react-redux';
 
 function SignInUser() {
   
   const [cookies, setCookie] = useCookies(['token']);
-  const [alert, setAlert] = useState({ message: '', type: 'success' });
-  const [LoggedIN , setLoggedIN] = useState(false);
+  const [showAlert , setShowAlert] = useState(false);
+  const [alertMessage , setAlertMessage] = useState({});
+  const dispatch = useDispatch();
+  const { isAuthenticated } = useSelector((state) => state.user);
+
+  const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     email: '',
     password: '',
   });
+
+  const handleOnClose = () =>{
+    if( isAuthenticated ){
+      window.location.href = '/';
+    }
+    setShowAlert(false);
+  }
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -20,38 +35,52 @@ function SignInUser() {
       ...formData,
       [name]: value,
     });
-
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    dispatch(loginUser(formData.email,formData.password));
 
-    const postData = {
-        email: formData.email,
-        password: formData.password,
-      };
-    console.log(postData);
+    console.log("Login Details Send");
+    console.log(formData);
 
-    //conection with the api to send and recieve data
-    const response = await axios.post('/user/login',postData);
-    console.log(response);
-    
-    //save the token in a cookie
-    const token = response.data.token;
-    console.log(token);
-    setCookie('token' , token);
-    localStorage.setItem("authenticated",true);
-    
-    setLoggedIN(true);
+    await axios.post('/user/login',formData)
+    .then( (response)=> {
+     
+    const success = response.data.success;
+    const message = response.data.message;
+    console.log(message);
 
-    setTimeout(()=>{
-      setLoggedIN(false)}
-     ,2000);
+     setAlertMessage({
+      success,
+      message,
+     });
 
+    if(success===false)
+    {
+      setShowAlert(true);
+    }
+    else{
+   
     setFormData({
         email: '',
         password: '',
       });
+    
+      setShowAlert(true);
+    }
+  })
+  .catch((error)=>{
+    const success = error.response.data.success;
+    const message = error.response.data.message;
+    console.log(message);
+
+     setAlertMessage({
+      success,
+      message,
+     });
+    setShowAlert(true);
+  })
     };
 
   const containerStyle = {
@@ -59,6 +88,7 @@ function SignInUser() {
     backgroundColor: '#219EBC', // Background color for the entire viewport
     paddingTop: '0px', // Space from the top
   };
+
   
   return (
     <div style = {containerStyle}>
@@ -112,7 +142,9 @@ function SignInUser() {
         </p>
         </div>
       </form>
-    </div>
+    </div>    
+    {showAlert && <AlertBox message={alertMessage.message} status={alertMessage.success} 
+    onClose={handleOnClose}/>}
     </div>
   );
 }

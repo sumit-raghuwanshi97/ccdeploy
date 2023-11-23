@@ -23,7 +23,7 @@ try {
     const existing_user = await user.findOne({ email : req.body.email });
     
     if(existing_user){
-        res.status(404).
+        res.status(201).
         json({
             success : false,
             message : "User already exists",
@@ -35,7 +35,7 @@ try {
     res.status(201)
     .json({
         success:true,
-        message : `${newUser.name} Registered Successfully`,
+        message : `Registered Successfully`,
     });
 
 } catch (error) {
@@ -63,29 +63,39 @@ exports.loginUser = async (req,res) => {
     }
 
     const user1 = await user.findOne( {email} );
-
-    if(!user){
-        res.status(400).json({
+    
+   
+    if(!user1){
+        return res.status(404).json({
             success:false,
             message:"User does not exists",
         });
+       
     }
-
+    
+    console.log(user1);
     //Match password 
     const isMatch = await user1.matchPassword(password);
 
     if(!isMatch){
-        res.status(400).json({
+        res.status(404).json({
             success:false,
-            message:"Incorect Password",
+            message:"Incorrect Password !",
         });
     }
-
+    else{
     //generate token 
     const token = await user1.generateToken();
      
     //send token to cookies
-    res.status(200).cookie("token" , token).json({success:true,user1,token});
+    res.status(200).cookie("token" , token)
+    .json(
+        {
+        success:true,
+        message: `hi! ${user1.name} you are logged in successfully`,
+        user1,token}
+        );
+    }
 
     } catch (error) {
         return res.status(201)
@@ -95,6 +105,43 @@ exports.loginUser = async (req,res) => {
         });
     }
     
+};
 
+
+exports.getUser = async (req,res) => {
+
+    const userId = req.params.id ;
+
+    const userInfo = await user.findById(userId);
+    console.log(userInfo);
+
+    res.status(200)
+    .json({
+        success:true,
+        userInfo,
+    });
+};
+
+
+exports.getLoggedInUser = async (req, res) => {
+
+   try {
     
+    const User = req.user;
+
+    res.status(200)
+    .json({
+        success:true,
+        User,
+    });
+
+   } catch (error) {
+    
+    res.status(500)
+    .json({
+        success:false,
+        error,
+    });
+    
+   }
 }

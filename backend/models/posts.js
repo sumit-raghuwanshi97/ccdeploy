@@ -29,7 +29,21 @@ const postsSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref : "User",
        }
-    ]
+    ],
+
+    comments : [
+        {
+            type : mongoose.Schema.Types.ObjectId,
+            ref : "comments",
+        }
+    ],
+
+    bookmark : [
+        {
+            type : mongoose.Schema.Types.ObjectId,
+            ref : "User",
+        }
+    ],
 
 });
 

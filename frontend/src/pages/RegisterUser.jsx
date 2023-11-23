@@ -1,8 +1,22 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link , useNavigate } from 'react-router-dom';
 import axios  from 'axios';
+import AlertBox from '../components/Popups/AlertBox';
 
 function RegisterUser() {
+
+  const navigate = useNavigate();
+  const [message , setMessage] = useState('');
+  const [status , setStatus] = useState(false);
+
+  const [showAlert , setShowAlert] = useState(false);
+  const HandleOnClose = () => {
+    setShowAlert(false);
+    if(status) { navigate('/login'); }
+    else { navigate('/register')}
+  
+  }
+
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -42,7 +56,11 @@ function RegisterUser() {
 
     console.log(postData);
     const response = await axios.post('/user/register',postData);
-
+    
+    console.log(response);
+    setMessage(response.data.message);
+    setStatus(response.data.success);
+    setShowAlert(true);
 
     setFormData({
         name: '',
@@ -69,8 +87,10 @@ function RegisterUser() {
   };
   
   return (
+    
     <div style = {containerStyle}>
     <div style = {formStyle} className="flex justify-center items-center h-screen">
+
       <form onSubmit={handleSubmit} className="bg-white ,shadow-md rounded p-8 max-w-md w-full">
         <h2 className="text-2xl font-bold mb-4 text-center">Sign up</h2>
         <div className="mb-4">
@@ -189,6 +209,7 @@ function RegisterUser() {
         </div>
       </form>
     </div>
+    { showAlert && <AlertBox message={message}  status={status} onClose={HandleOnClose}/>}
     </div> 
   );
 }

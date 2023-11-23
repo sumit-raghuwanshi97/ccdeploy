@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 
-
-
 function FilterPosts({ onFilter }) {
   const [filters, setFilters] = useState({
     company: '',
@@ -29,11 +27,10 @@ function FilterPosts({ onFilter }) {
             onChange={handleFilterChange}
             className="border p-2 rounded-md"
           >
-            <option value=""></option>
-            <option value="opt1">NRI Fintech</option>
-            <option value="opt2">ZScaler</option>
-            <option value="opt3">Other</option>
-            {/* Populate company options dynamically */}
+            <option value="">Company</option>
+            <option value="Flipkart">Flipkart</option>
+            <option value="Amazon">Amazon</option>
+            <option value="">none</option>
           </select>
         </div>
 
@@ -44,11 +41,11 @@ function FilterPosts({ onFilter }) {
             onChange={handleFilterChange}
             className="border p-2 rounded-md"
           >
-            <option value=""></option>
-            <option value="opt1">Selected</option>
-            <option value="opt2">Not Selected</option>
-            <option value="opt3">Other</option>
-            {/* Populate status options dynamically */}
+            <option value="">Status</option>
+            <option value="Selected">Selected</option>
+            <option value="Not Selected">Not Selected</option>
+            <option value="Other">Other</option>
+            
           </select>
         </div>
 
@@ -60,9 +57,9 @@ function FilterPosts({ onFilter }) {
             className="border p-2 rounded-md"
           >
             <option  value="">Choose a role</option>
-            <option value="opt1">SDE</option>
-            <option value="opt2">Graduate Trainee</option>
-            <option value="opt3">Other</option>
+            <option value="Full Time">Full Time</option>
+            <option value="Intern">Intern</option>
+            <option value="FT+Intern">FT+Intern</option>
             {/* Populate role options dynamically */}
           </select>
         </div>

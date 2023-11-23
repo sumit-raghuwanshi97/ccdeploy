@@ -31,6 +31,13 @@ const userSchema = new mongoose.Schema({
         default : false,
     },
 
+    bookmarkedPost : [
+        {
+            type : mongoose.Schema.Types.ObjectId,
+            ref : "post",
+        }
+    ]
+
 
 });
 
