@@ -12,7 +12,7 @@ router.use(bodyParser.json());
 router.route('/register').post(RegisterUser);
 router.route('/login').post(loginUser);
 router.route('/logout').get(logoutUser);
-router.route('/:id').get(isAuthenticated,getUser);
+// router.route('/:id').get(isAuthenticated,getUser);
 router.route('/profile/me').get(isAuthenticated, getLoggedInUser);
 
 
