@@ -1,12 +1,10 @@
 const mongoose = require('mongoose');
 const URL = process.env.Database_URL;
 const URL2 = process.env.Database_URL2;
-const flag = true;
 
 async function connectToDatabse(){
 
-    console.log(URL);
-    await mongoose.connect(URL,{
+    await mongoose.connect(URL2,{
         dbName: "campus-connect"
     })
     .then(()=>{

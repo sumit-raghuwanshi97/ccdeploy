@@ -27,7 +27,7 @@ function App() {
   return (
     <Router>
       <div>
-        { user ?
+        { isAuthenticated ?
         <Navbar user={user.name}/>
         :<Navbar user="" />
         }

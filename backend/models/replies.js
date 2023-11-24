@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 
-const commentsSchema = new mongoose.Schema({
+
+const replySchema = new mongoose.Schema({
+
     text: {
         type: String,
         required: true,
@@ -17,9 +19,9 @@ const commentsSchema = new mongoose.Schema({
         required: true,
       },
 
-      post: {
+      comment : {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'posts',
+        ref: 'comments',
         required: true,
       },
 
@@ -31,19 +33,11 @@ const commentsSchema = new mongoose.Schema({
         }
       ],
 
-      replies : [
-        {
-          type : mongoose.Schema.Types.ObjectId,
-          ref : 'replies',
-          required : false ,
-        }
-      ],
-
       createdAt: {
         type: Date,
         default: Date.now,
       },
 });
 
-const comments = mongoose.model('comments',commentsSchema);
-module.exports = comments;
+const replies  = mongoose.model('replies' , replySchema);
+module.exports = replies;

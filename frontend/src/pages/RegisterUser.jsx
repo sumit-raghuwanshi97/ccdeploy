@@ -89,7 +89,7 @@ function RegisterUser() {
   return (
     
     <div style = {containerStyle}>
-    <div style = {formStyle} className="flex justify-center items-center h-screen">
+    <div style = {formStyle} className="flex justify-center items-center  p-3 pt-5">
 
       <form onSubmit={handleSubmit} className="bg-white ,shadow-md rounded p-8 max-w-md w-full">
         <h2 className="text-2xl font-bold mb-4 text-center">Sign up</h2>
@@ -168,10 +168,10 @@ function RegisterUser() {
             className="block w-full px-3 py-2 border shadow rounded-md focus:outline-none focus:ring focus:border-blue bg-white"
             required>
             <option  value="none">None</option>
-            <option  value="CS">CS</option>
-            <option  value="IT">IT</option>
-            <option  value="E&TC">E&TC</option>
-            <option  value="E&I">E&I</option>
+            <option  value="Computer Science">Computer Science</option>
+            <option  value="Information Technology">Information Technology</option>
+            <option  value="Electronics and TeleCommunication">Electronics and TeleCommunication</option>
+            <option  value="Electronics and Instrumental">Electronics and Instrumental</option>
             <option  value="Mechanical">Mechanical</option>
             <option  value="Civil">Civil</option>
             

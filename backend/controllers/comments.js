@@ -1,6 +1,7 @@
 const Post = require('../models/posts');
 const User = require('../models/user');
 const Comment = require('../models/comments');
+const Replies = require('../models/replies');
 
 
 exports.LikeandUnlikeComment = async (req, res) => {
@@ -56,6 +57,63 @@ exports.getLikes = async (req , res) => {
         Likedby,
         userLike,
     });
-}
+};
 
+exports.addReply = async (req,res) =>{
+
+     
+    try {
+        console.log("recieved");
+        const commentId = req.body.comment;
+        const reply = req.body;
+        const comment = await Comment.findById(commentId);
+        console.log(reply);
+        console.log(comment);
+
+        //Add comment to the comment db and to the corresponding post 
+        const { _id } = await Replies.create(reply);
+        comment.replies.push(_id);
+        await comment.save();
+        
+        res.status(200)
+        .json({
+            success: true,
+            _id,
+            message: "Reply added successfully",
+        });
+
+    } catch (error) {
+
+        return res.status(500)
+        .json({
+            success:false,
+            message:error.message,
+        });
+
+    }
+
+};
+
+exports.getReplies = async (req, res) => {
+
+    const commentId = req.params.id;
+    const comment = Comment.findById(commentId);
+
+    if(!comment){
+        return res.status(400)
+        .json({
+            success:false,
+            message:"Comment not found",
+        });
+    }
+
+    const { replies } = await comment.populate('replies');
+    console.log(replies);
+
+    res.status(200)
+    .json({
+        success:true,
+        replies,
+    });
+}
 

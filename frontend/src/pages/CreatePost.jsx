@@ -9,6 +9,7 @@ function CreatePost() {
   
   const navigate = useNavigate();
   const [showAlert , setShowAlert] = useState(false);
+  const [message , setMessage] = useState("Post Created Successfully");
 
   const HandleOnClose = ()=> {
     setShowAlert(false);
@@ -46,12 +47,23 @@ function CreatePost() {
 
     console.log(token);
 
-    const headers = {
-      'Authorization' : `${token}`,
-    };
+    // const headers = {
+    //   'Authorization' : `${token}`,
+    // };
     //sending data to the backend through api 
-    axios.post('/posts/createPost' , formData , {headers});
-    setShowAlert(true);
+    axios.post('/posts/createPost' , formData , {
+      headers:{
+        "Content-Type" : "application/json",
+      },
+    }).then((response)=>{
+      setShowAlert(true);
+    })
+    .catch((error)=>{
+      setMessage(error.response.data.message);
+      setShowAlert(true);
+    });
+
+
     };
 
   const containerStyle = {
@@ -189,7 +201,7 @@ function CreatePost() {
         </div>
       </div>
 
-      { showAlert && <AlertBox message="Post Created Successfully" status="true" onClose={HandleOnClose}/> }
+      { showAlert && <AlertBox message={message} status="true" onClose={HandleOnClose}/> }
     </div>
   );
 }

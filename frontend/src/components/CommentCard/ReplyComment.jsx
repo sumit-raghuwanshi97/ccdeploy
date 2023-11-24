@@ -1,18 +1,14 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FaUserCircle } from 'react-icons/fa';
 import CommentCard from './CommentCard';
 import  axios from 'axios';
+import { useSelector } from 'react-redux';
 
 
 const ReplyComment = (comment) => {
   const [reply , setReply] = useState('');
   const [replies, setReplies] = useState([]);
-  const token = document.cookie.split('; ')
-    .find(cookie => cookie.startsWith('token'));
-
-    const headers = {
-      'authorization' : `${token}`,
-    };
+  const { user } = useSelector((state) => state.user);
 
   const handleCommentChange = (e)=>{
     setReply(e.target.value);
@@ -22,37 +18,47 @@ const ReplyComment = (comment) => {
    
     const postReply = {
         text:reply,
-        userName : localStorage.getItem('username'),
+        user : user._id,
+        userName : user.name,
         createdAt : new Date(),
-        post : comment.comment._id,
+        comment : comment.comment._id,
         likes : [],
       };
 
-    console.log(postReply);
-    // const postComment = postReply;
-    // // const response = await axios.post('/posts/addComment',postComment,{headers});
-      
-    //   console.log(response);
-    //   const mpost = {
-    //     ...postReply,
-    //     _id : response.data._id,
-    //   };
+      axios.post('/comments/reply',postReply , {
+        headers : {
+          "Content-Type" : "application/json",
+        }
+      })
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((e)=>console.log(e));
 
-    //   replies.push(mpost);
-    //   setReply('');
+      
 
   };
 
+  const response = async () => {
+    const response =  await axios.get(`/comments/getReplies/${comment.comment._id}`);
+    setReplies(response.data.replies)
+    console.log(response);
+    }
+
+  useEffect(()=>{
+    response();
+  },[]);
 
   return (
+    <div className='ml-10'>
     <div>
-    {/* <div>
     {
     replies.map((replyComment ,index) => (
-    <CommentCard comment={replyComment}/>
+      <div key={index}><CommentCard comment={replyComment}/></div>
+      
     ))
     }
-    </div> */}
+    </div>
 
 
     <div className="flex items-center space-x-4 p-4">

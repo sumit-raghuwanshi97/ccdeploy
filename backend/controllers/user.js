@@ -86,9 +86,12 @@ exports.loginUser = async (req,res) => {
     else{
     //generate token 
     const token = await user1.generateToken();
+    const User = user1;
      
     //send token to cookies
-    res.status(200).cookie("token" , token , {
+   
+
+    res.status(200).cookie("token" , token ,  {
         httpOnly: true,
         path: "/",
         maxAge: 30 * 24 * 60 * 60 * 1000, // 30days
@@ -97,7 +100,7 @@ exports.loginUser = async (req,res) => {
         {
         success:true,
         message: `hi! ${user1.name} you are logged in successfully`,
-        user1,
+        User,
         token,
         }
         );
@@ -127,6 +130,13 @@ exports.getUser = async (req,res) => {
         userInfo,
     });
 };
+
+
+exports.logoutUser = async (req,res) => {
+    res.status(200).cookie('token','').json({
+        message:"logout",
+    })
+}
 
 
 exports.getLoggedInUser = async (req, res) => {

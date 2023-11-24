@@ -1,7 +1,5 @@
 import axios from 'axios';
 
-
-
 export const loginUser = (email , password) => async (dispatch) => {
     try {
         
@@ -13,7 +11,7 @@ export const loginUser = (email , password) => async (dispatch) => {
 
        dispatch({
         type:"LoginSuccess",
-        payload: data.user,
+        payload: data.User,
        });
 
     } catch (error) {
@@ -46,12 +44,29 @@ export const loadUser = () => async (dispatch) => {
     };
 
     console.log(headers);
-    const { data } =  await axios.get('/user/profile/me', {headers});
+    // const { data } =  await axios.get('/user/profile/me', {headers});
 
-    dispatch({
+    // dispatch({
+    //     type : "LoadUserSuccess",
+    //     payload : data.User,
+    // }); 
+
+    await axios.get('/user/profile/me' , {headers})
+    .then((response) => {
+
+      dispatch({
         type : "LoadUserSuccess",
-        payload : data.User,
-    }); 
+        payload : response.data.User,
+      });
+
+    })
+    .catch((error)=>{
+      dispatch({
+        type : "LoadUserFailure",
+        payload : error,
+      });
+
+    });
 
   } catch (error) {
     
