@@ -9,7 +9,7 @@ function ViewPosts() {
 
   useEffect(() => {
     //fetching data from our bakend api 
-    axios.get('/posts/getPosts')
+    axios.get('https://campus-connect-server-pi.vercel.app/posts/getPosts')
       .then((response) => {
         setPosts(response.data.posts);
       })
