@@ -34,7 +34,7 @@ export const loadUser = () => async (dispatch) => {
         type : "LoadUserRequest",
     });
 
-    const { data } =  await axios.get('https://campus-connect-server-pi.vercel.app/user/profile/me');
+    const { data } =  await axios.get('/user/profile/me');
 
     dispatch({
         type : "LoadUserSuccess",
