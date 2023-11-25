@@ -4,7 +4,7 @@ const URL2 = process.env.Database_URL2;
 
 async function connectToDatabse(){
 
-    await mongoose.connect(URL2,{
+    await mongoose.connect(URL,{
         dbName: "campus-connect"
     })
     .then(()=>{
