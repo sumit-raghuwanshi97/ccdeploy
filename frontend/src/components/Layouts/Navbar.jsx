@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom'
 import logo from '../../assets/logo.png'; 
 import { FaUserCircle } from "react-icons/fa";
 import NavDropDown from '../DropDown/NavDropDown';
-import { Alert } from 'react-alert';
 import { useSelector } from 'react-redux';
 
 const Navbar = ({ user }) => {

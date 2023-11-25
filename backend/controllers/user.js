@@ -133,9 +133,11 @@ exports.getUser = async (req,res) => {
 
 
 exports.logoutUser = async (req,res) => {
-    res.status(200).cookie('token','').json({
-        message:"logout",
-    })
+    res.status(200).cookie('token','')
+    .json({
+        success : true ,
+        message : "Logout Successfully",
+    });
 }
 
 

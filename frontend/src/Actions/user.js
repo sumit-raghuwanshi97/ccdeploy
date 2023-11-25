@@ -34,39 +34,29 @@ export const loadUser = () => async (dispatch) => {
         type : "LoadUserRequest",
     });
 
-    const token = document.cookie.split('; ')
-    .find(cookie => cookie.startsWith('token'));
+    const { data } =  await axios.get('https://campus-connect-server-pi.vercel.app/user/profile/me');
 
-    console.log(token);
-
-    const headers = {
-      'Authorization' : `${token}`,
-    };
-
-    console.log(headers);
-    // const { data } =  await axios.get('/user/profile/me', {headers});
-
-    // dispatch({
-    //     type : "LoadUserSuccess",
-    //     payload : data.User,
-    // }); 
-
-    await axios.get('/user/profile/me' , {headers})
-    .then((response) => {
-
-      dispatch({
+    dispatch({
         type : "LoadUserSuccess",
-        payload : response.data.User,
-      });
+        payload : data,
+    }); 
 
-    })
-    .catch((error)=>{
-      dispatch({
-        type : "LoadUserFailure",
-        payload : error,
-      });
+    // await axios.get('/user/profile/me')
+    // .then((response) => {
 
-    });
+    //   dispatch({
+    //     type : "LoadUserSuccess",
+    //     payload : response.data.User,
+    //   });
+
+    // })
+    // .catch((error)=>{
+    //   dispatch({
+    //     type : "LoadUserFailure",
+    //     payload : error,
+    //   });
+
+    // });
 
   } catch (error) {
     
